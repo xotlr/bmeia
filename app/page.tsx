@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { quizData, Question } from "@/lib/quiz-data";
+import { quizData, Question, getQuizQuestions } from "@/lib/quiz-data";
 import { SectionSelector } from "@/components/section-selector";
 import { QuizCard } from "@/components/quiz-card";
 import { ResultsDashboard } from "@/components/results-dashboard";
@@ -23,9 +23,9 @@ export default function Home() {
   const [currentSectionId, setCurrentSectionId] = useState<string | undefined>();
 
   const handleSectionSelect = (sectionId: string) => {
-    const section = quizData.find(s => s.id === sectionId);
-    if (section) {
-      setCurrentQuestions(section.questions);
+    const questions = getQuizQuestions(sectionId, undefined, true); // Shuffle section questions
+    if (questions.length > 0) {
+      setCurrentQuestions(questions);
       setCurrentSectionId(sectionId);
       setCurrentQuestionIndex(0);
       setResults([]);
@@ -34,7 +34,7 @@ export default function Home() {
   };
 
   const handleStartFullQuiz = () => {
-    const allQuestions = quizData.flatMap(section => section.questions);
+    const allQuestions = getQuizQuestions(undefined, 50, true); // Get 50 shuffled questions from all sections
     setCurrentQuestions(allQuestions);
     setCurrentSectionId(undefined);
     setCurrentQuestionIndex(0);
@@ -65,6 +65,12 @@ export default function Home() {
   };
 
   const handleRestart = () => {
+    // Re-shuffle questions for restart
+    const newQuestions = currentSectionId 
+      ? getQuizQuestions(currentSectionId, undefined, true)
+      : getQuizQuestions(undefined, 50, true);
+    
+    setCurrentQuestions(newQuestions);
     setCurrentQuestionIndex(0);
     setResults([]);
     setCurrentView("quiz");

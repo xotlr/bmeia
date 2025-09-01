@@ -1,7 +1,7 @@
 "use client";
 
 import { QuizSection } from "@/lib/quiz-data";
-import { ChevronRight, Target, Flag, Globe, Users, MapPin, Calendar } from "lucide-react";
+import { ChevronRight, Target, Flag, Globe, Users, MapPin, Calendar, Scale, BookOpen, TrendingUp } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 
 interface SectionSelectorProps {
@@ -23,6 +23,12 @@ export function SectionSelector({ sections, onSectionSelect, onStartFullQuiz }: 
         return <MapPin className="w-6 h-6" />;
       case "current-affairs":
         return <Calendar className="w-6 h-6" />;
+      case "austrian-law-constitution":
+        return <Scale className="w-6 h-6" />;
+      case "history-culture":
+        return <BookOpen className="w-6 h-6" />;
+      case "economics-development":
+        return <TrendingUp className="w-6 h-6" />;
       default:
         return <Target className="w-6 h-6" />;
     }
@@ -77,7 +83,7 @@ export function SectionSelector({ sections, onSectionSelect, onStartFullQuiz }: 
                 Vollständiger Test
               </h3>
               <p className="text-stone-600 dark:text-stone-400">
-                Alle 50 Fragen aus 5 Themenbereichen
+                50 zufällig ausgewählte Fragen aus allen 8 Bereichen
               </p>
             </div>
             <button
@@ -102,7 +108,7 @@ export function SectionSelector({ sections, onSectionSelect, onStartFullQuiz }: 
           </div>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-16">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-16">
           {sections.map((section) => (
             <button
               key={section.id}
